@@ -405,13 +405,12 @@ UniValue burn(const UniValue& params, bool fHelp){
     }
 
     // Amount
-    int64_t nAmount = params[0];
- CTxDestination address1;
-    string strError = SendMoneySC(scriptPubKey, nAmount, wtx,false);
-    if (strError != "")
-        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+    int64_t nAmount = params[0].get_int();
+   CTxDestination address1;
+     CWalletTx wtx;
+    SendMoneySC(scriptPubKey, nAmount, wtx,false);
+
     EnsureWalletIsUnlocked();
-    CWalletTx wtx;
     return wtx.GetHash().GetHex();
 }
 UniValue sendtoaddress(const UniValue& params, bool fHelp)
